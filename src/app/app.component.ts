@@ -35,8 +35,14 @@ export class AppComponent {
     if(newNTable >= 2 && newNTable <= 5) {
       this.nTable = newNTable;
     }
+    else if (newNTable < 2 || newNTable > 5) {
+      alert("The number of tables can be min 2 and max 5")
+    }
     if(newNCells >= 10 && newNCells <= 30) {
       this.nCells = newNCells;
+    }
+    else if(newNCells < 10 || newNCells > 30) {
+      alert("The number of rows in a table can be min 10 and max 30")
     }
     this.dataRaw = this.generateArray(this.nTable, this.nCells);
     this.data = JSON.stringify(this.dataRaw);
@@ -47,18 +53,22 @@ export class AppComponent {
   insertNewData() {
     var value = document.getElementsByTagName("input")[2].value;
     console.log(value);
-    var hasTheValue = false; 
-    this.allData.forEach(element => {
-      if (element == value) {
-        hasTheValue = true;
-      }
-    });
-    if (!hasTheValue) {
-      this.insert(value);
-    } else {
-      alert("The value is already inserted!");
+    if (value.length <= 0) {
+      alert("The value cannot be empty!");
     }
-    
+    else {
+      var hasTheValue = false; 
+      this.allData.forEach(element => {
+        if (element == value) {
+          hasTheValue = true;
+        }
+      });
+      if (!hasTheValue) {
+        this.insert(value);
+      } else {
+        alert("The value is already inserted!");
+      }
+    }
   }
 
   insert(value) {
@@ -164,8 +174,7 @@ export class AppComponent {
 
       if (!returnHashing.flag) {
         this.dataRaw[tableIndex] = returnHashing.table;
-        this.data = JSON.stringify(this.dataRaw);
-        console.log("BREAK");      
+        this.data = JSON.stringify(this.dataRaw);   
         break;
       }
       else {
@@ -213,15 +222,25 @@ export class AppComponent {
   } */
 
   search() {
-    this.deleteFlag = false;
     this.searchValue = document.getElementsByTagName("input")[3].value;
-    this.searchAndDelete(this.searchValue);
+    if (this.searchValue.length <= 0) {
+      alert("The value cannot be empty!");
+    }
+    else {
+      this.deleteFlag = false;
+      this.searchAndDelete(this.searchValue);
+    }
   }
 
   delete() {
-    this.deleteFlag = true;
     this.deleteValue = document.getElementsByTagName("input")[4].value;
-    this.searchAndDelete(this.deleteValue);
+    if (this.searchValue.length <= 0) {
+      alert("The value cannot be empty!");
+    }
+    else {
+      this.deleteFlag = true;
+      this.searchAndDelete(this.deleteValue);
+    }
   }
 
   searchAndDelete(value) {
