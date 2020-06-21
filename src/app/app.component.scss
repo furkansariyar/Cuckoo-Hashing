@@ -1,0 +1,61 @@
+.container {
+    //height: 100vh;
+    background-color: white;
+}
+
+.header {
+    text-align: center;
+    padding: 40px 0 10px;
+    .topic {
+        font-weight: bolder;
+    }
+}
+
+.input-tableCount, .input-cellCount, .input-insert, .input-search, .input-delete {
+    width: 100%;
+    margin-bottom: 15px;
+    label {
+        margin-right: 10px;
+    }
+}
+
+.input-tableCount {
+    input {
+        min-width: 100px;
+    }
+}
+
+.input-cellCount {
+    input {
+        min-width: 110px;
+    }
+}
+
+.input-insert, .input-search, .input-delete {
+    text-align: center;
+}
+
+.update-table {
+    min-width: 230px;
+}
+
+.update-table, .insert-btn, .search-btn, .delete-btn {
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+.insert-btn, .search-btn, .delete-btn {
+    margin-left: 10px;
+    min-width: 110px;
+}
+
+.hashTable {
+    display: inline-block;
+}
+
+.collision {
+    font-size: larger;
+    color: #dc3545;
+    font-weight: bold;
+    font-style: italic;
+}
