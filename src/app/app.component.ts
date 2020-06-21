@@ -45,7 +45,7 @@ export class AppComponent {
   }
 
   insertNewData() {
-    var value = parseFloat(document.getElementsByTagName("input")[2].value);
+    var value = document.getElementsByTagName("input")[2].value;
     console.log(value);
     var hasTheValue = false; 
     this.allData.forEach(element => {
@@ -214,13 +214,13 @@ export class AppComponent {
 
   search() {
     this.deleteFlag = false;
-    this.searchValue = parseFloat(document.getElementsByTagName("input")[3].value);
+    this.searchValue = document.getElementsByTagName("input")[3].value;
     this.searchAndDelete(this.searchValue);
   }
 
   delete() {
     this.deleteFlag = true;
-    this.deleteValue = parseFloat(document.getElementsByTagName("input")[4].value);
+    this.deleteValue = document.getElementsByTagName("input")[4].value;
     this.searchAndDelete(this.deleteValue);
   }
 
@@ -392,9 +392,20 @@ export class AppComponent {
     return arr;
   }
 
+  // Get ASCII value for each character in the input and sum them all
+  sumUpString(value) {
+    var sum = 0;
+    for (var i = 0; i < value.length; i++) {
+      console.log(value.charCodeAt(i));
+      sum = sum + value.charCodeAt(i);
+    }
+    return sum;
+  }
+
   // linear hashing function
   linearHashing(newData, hashTable, collision) {
-    var modulus = newData%this.nCells;
+    var sum = this.sumUpString(newData);
+    var modulus = sum%this.nCells;
     var isAllocated;
     var allocatedData;
     if(hashTable[modulus] == "_" || hashTable[modulus] == "_ ") {
@@ -410,7 +421,8 @@ export class AppComponent {
   }
 
   searchLinearHashing(value, hashTable, collision) {
-    var modulus = value%this.nCells;
+    var sum = this.sumUpString(value);
+    var modulus = sum%this.nCells;
     var isAllocated;
     var allocatedData;
     var isFound = false;
@@ -440,7 +452,8 @@ export class AppComponent {
   quadraticHashing(newData, hashTable, collision) {
     var c1 = 0;
     var c2 = 1;
-    var modulus = (newData + c1*collision + c2*Math.pow(collision,2)) % this.nCells;
+    var sum = this.sumUpString(newData);
+    var modulus = (sum + c1*collision + c2*Math.pow(collision,2)) % this.nCells;
     var isAllocated;
     var allocatedData;
     if(hashTable[modulus] == "_" || hashTable[modulus] == "_ ") {
@@ -458,7 +471,8 @@ export class AppComponent {
   searchQuadraticHashing(value, hashTable, collision) {
     var c1 = 0;
     var c2 = 1;
-    var modulus = (value + c1*collision + c2*Math.pow(collision,2)) % this.nCells;
+    var sum = this.sumUpString(value);
+    var modulus = (sum + c1*collision + c2*Math.pow(collision,2)) % this.nCells;
     var isAllocated;
     var allocatedData;
     var isFound = false;
@@ -486,11 +500,12 @@ export class AppComponent {
 
   // double hashing function
   doubleHashing(newData, hashTable, collision) {
+    var sum = this.sumUpString(newData);
     var isAllocated;
     var allocatedData;
-    var modulus = newData%this.nCells;
+    var modulus = sum%this.nCells;
     var R = this.getPrime(hashTable.length);
-    var modulusH2 = newData%R;
+    var modulusH2 = sum%R;
     modulus = (modulus + collision*(R - modulusH2))%this.nCells;
     if(hashTable[modulus] == "_" || hashTable[modulus] == "_ ") {
       hashTable[modulus] = newData;
@@ -505,9 +520,10 @@ export class AppComponent {
   }
 
   searchDoubleHashing(value, hashTable, collision) {
-    var modulus = value%this.nCells;
+    var sum = this.sumUpString(value);
+    var modulus = sum%this.nCells;
     var R = this.getPrime(hashTable.length);
-    var modulusH2 = value%R;
+    var modulusH2 = sum%R;
     modulus = (modulus + collision*(R - modulusH2))%this.nCells;
     var isAllocated;
     var allocatedData;
@@ -536,15 +552,16 @@ export class AppComponent {
 
   // this method adds the digit of the newData and takes its mod. The result is the index that will be used to insertion.
   digitFoldingHashing(newData, hashTable, collision){
+    var sumStr = this.sumUpString(newData);
     var isAllocated;
     var allocatedData;
     var sum = 0;
-    var num = newData;
+    var num = sumStr;
     while(num != 0) {
       sum = sum + (num%10);
       num = Math.floor(num/10);
     }
-    num = num%this.nCells;
+    num = sum%this.nCells;
     if(hashTable[num] == "_" || hashTable[num] == "_ ") {
       hashTable[num] = newData;
       isAllocated = false;
@@ -558,18 +575,19 @@ export class AppComponent {
   }
 
   searchDigitalFoldingHashing(value, hashTable, collision) {
+    var sumStr = this.sumUpString(value);
     var isAllocated;
     var allocatedData;
     var isFound = false;
     var sum = 0;
-    var num = value;
+    var num = sumStr;
     var noDataFlag = false;
     var cell;
     while(num != 0) {
       sum = sum + (num%10);
       num = Math.floor(num/10);
     }
-    num = num%this.nCells;
+    num = sum%this.nCells;
 
     if(hashTable[num] == "_") {
       noDataFlag = true;
@@ -592,9 +610,10 @@ export class AppComponent {
   }
 
   midSquareHashing(value, hashTable, collision) {
+    var sumStr = this.sumUpString(value);
     var isAllocated;
     var allocatedData;
-    var num = value*value;
+    var num = sumStr*sumStr;
     var digits = [];
     var mid = 0;
     while(num != 0) {
@@ -625,9 +644,10 @@ export class AppComponent {
   }
 
   searchMidSquareHashing(value, hashTable, collision) {
+    var sumStr = this.sumUpString(value);
     var isAllocated;
     var allocatedData;
-    var num = value*value;
+    var num = sumStr*sumStr;
     var digits = [];
     var mid = 0;
     var isFound = false;
